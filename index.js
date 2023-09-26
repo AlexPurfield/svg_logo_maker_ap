@@ -1,8 +1,6 @@
 const inquirer = require ("inquirer"); //need inquirer for user input 
 const fs = require ("fs"); //will need fs to make svg file 
-const Triangle = require("./lib/shapes");
-const Circle = require("./lib/shapes");
-const Square = require("./lib/shapes");
+const { Triangle, Circle, Square } = require("./lib/shapes");
 let answers = "";
 
 //questions for user input
@@ -73,7 +71,7 @@ svgString += `<rect x="10" y="10" width="30" height="30"; fill="${answers.shapeC
 
       // <text> tag gives rise to text alignment, text-content/text-color taken in from user input and gives default font size of "40"
   svgString += `<text x="150" y="130" text-anchor="middle" font-size="40" fill="${answers.textColor}">${answers.text}</text>`;
-  // Closing </g> tag
+  // Closing </g> 
   svgString += "</g>";
   // Closing </svg> tag
   svgString += "</svg>";
