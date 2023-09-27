@@ -1,7 +1,9 @@
 const inquirer = require ("inquirer"); //need inquirer for user input 
 const fs = require ("fs"); //will need fs to make svg file 
 const { Triangle, Circle, Square } = require("./lib/shapes");
-let answers = "";
+
+
+const fileName = './examples/logo.svg'
 
 //questions for user input
 const questions = () => {
@@ -43,44 +45,32 @@ const questions = () => {
         }
         }
     );
-}
+};
 
-//Need function that will write SVG file using user input from inquirer
+//Need function that will get the shape the user chooses
 
-function writeToFile(fileName, answers) {
-    //start with empty string for input 
-    let svgString = "";
-    // set the container for logo
-    svgString = '<svg width="300" height="250" version="1.1" xmlns="http://www.w3.org/2000/svg">';
-    svgString += '<g>';
-    svgString += `${answers.shape}`;
-    //choice of triangle, square, or circle- set the svg html details
-let userShape;
-if (answers.shape === "Triangle") {
-userShape = new Triangle(); //create new triangle object
-svgString += `<polygon points = "150, 18 244, 182 56, 182'; fill ="${answers.shapeColor}"/>`; 
-console.log (userShape);
-} else if (answers.shape === "Square") {
-userShape = new Square(); //create new square object if choose square
-svgString += `<rect x="10" y="10" width="30" height="30"; fill="${answers.shapeColor}"/> `;
-    console.log (userShape);
-} else (answers.shape === "Circle" ); {
-   let userShape = new Circle (); //create new circle object if don't choose others 
-   console.log (userShape);
-    svgString += `<circle cx="150" cy="115" r="80" fill="${answers.shapeColor}"/>`}
+function makeShape(answers) {
+    if (answers.shape==='Circle') {
+        let userShape = new Circle (answers.shapeColor, answers.text, answers.textColor)
+        return userShape.render()
+    }
+    if (answers.shape==='Square') {
+        let userShape = new Square (answers.shapeColor, answers.text, answers.textColor)
+        return userShape.render()
+    }
+    if (answers.shape ==='Triangle') {
+        let userShape = new Triangle (answers.shapeColor, answers.text, answers.textColor)
+        return userShape.render()
+    }
+};
 
-      // <text> tag gives rise to text alignment, text-content/text-color taken in from user input and gives default font size of "40"
-  svgString += `<text x="150" y="130" text-anchor="middle" font-size="40" fill="${answers.textColor}">${answers.text}</text>`;
-  // Closing </g> 
-  svgString += "</g>";
-  // Closing </svg> tag
-  svgString += "</svg>";
+// need function to create the svg file with fs 
 
-  // Using file system module to generate svg file, takes in file name given in the promptUser function, the svg string, and a ternary operator which handles logging any errors, or a "Generated logo.svg" message to the console  
-  fs.writeFile(fileName, svgString, (err) => {
-    err ? console.log(err) : console.log("Generated logo.svg");
-  });
-}
-
+function makeLogo(answers) {
+    const svg =makeShape(answers);
+    fs.writeFile(fileName, svg, ()=> console.log ('Made logo.svg!!!'));
+};
 
 questions();
+initialize();
+makeLogo();
