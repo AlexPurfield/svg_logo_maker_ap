@@ -3,7 +3,7 @@ const fs = require ("fs"); //will need fs to make svg file
 const { Triangle, Circle, Square } = require("./lib/shapes");
 
 
-const fileName = './examples/logo.svg'
+const fileName = './examples/logo.svg';
 
 //questions for user input
 const questions = () => {
@@ -68,8 +68,16 @@ function makeShape(answers) {
 
 function makeLogo(answers) {
     const svg =makeShape(answers);
-    fs.writeFile(fileName, svg, ()=> console.log ('Made logo.svg!!!'));
-};
+    fs.writeFile("logo.svg", svg, (err)=> {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("svg file created");
+        }
+    })
+}
+      
+
 
 questions();
 initialize();
