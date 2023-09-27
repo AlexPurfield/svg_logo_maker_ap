@@ -1,6 +1,7 @@
 const inquirer = require ("inquirer"); //need inquirer for user input 
 const fs = require ("fs"); //will need fs to make svg file 
 const { Triangle, Circle, Square } = require("./lib/shapes");
+const answers=""
 
 
 const fileName = './examples/logo.svg';
@@ -10,7 +11,7 @@ const questions = () => {
     return inquirer
     .prompt([
         {
-            type: "rawlist",
+            type: "list",
             message: "What shape would you like your logo to be?",
             name: "shape",
             choices:["Triangle", "Circle", "Square"] 
@@ -36,49 +37,42 @@ const questions = () => {
 
     ])
 
-    .then((answers) => {
-        if (answers.text.length > 3) {
-            console.log("Can only use up to 3 characters");
-            questions();
-        } else {
-            writeToFile("logo.svg", answers);
-        }
-        }
-    );
+    .then(answers) 
+    
 };
 
 //Need function that will get the shape the user chooses
 
 function makeShape(answers) {
-    if (answers.shape==='Circle') {
+    if (questions.shape==='Circle') {
         let userShape = new Circle (answers.shapeColor, answers.text, answers.textColor)
         return userShape.render()
     }
-    if (answers.shape==='Square') {
+    if (questions.shape==='Square') {
         let userShape = new Square (answers.shapeColor, answers.text, answers.textColor)
         return userShape.render()
     }
-    if (answers.shape ==='Triangle') {
+    if (questions.shape ==='Triangle') {
         let userShape = new Triangle (answers.shapeColor, answers.text, answers.textColor)
         return userShape.render()
     }
+    // return makeLogo;
 };
 
 // need function to create the svg file with fs 
 
 function makeLogo(answers) {
     const svg =makeShape(answers);
-    fs.writeFile("logo.svg", svg, (err)=> {
+    fs.writeFile(fileName, JSON.stringify(svg), (err)=> {
         if (err) {
             console.log(err);
         } else {
             console.log("svg file created");
         }
-    })
+    });
 }
       
 
 
 questions();
-initialize();
 makeLogo();
