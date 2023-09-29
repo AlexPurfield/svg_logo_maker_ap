@@ -1,13 +1,13 @@
 const inquirer = require ("inquirer"); //need inquirer for user input 
 const fs = require ("fs"); //will need fs to make svg file 
 const { Triangle, Circle, Square } = require("./lib/shapes");
-const answers=""
+const answers="";
 
 
 const fileName = './examples/logo.svg';
 
 //questions for user input
-const questions = () => {
+function questions () {
     return inquirer
     .prompt([
         {
@@ -37,13 +37,17 @@ const questions = () => {
 
     ])
 
-    .then(answers) 
+    .then((answers) =>{
+        console.log (answers);
+        makeShape();
+        makeLogo();
+    } )
     
-};
+
 
 //Need function that will get the shape the user chooses
 
-function makeShape(answers) {
+function makeShape() {
     if (questions.shape==='Circle') {
         let userShape = new Circle (answers.shapeColor, answers.text, answers.textColor)
         return userShape.render()
@@ -57,22 +61,21 @@ function makeShape(answers) {
         return userShape.render()
     }
     // return makeLogo;
-};
+}
 
 // need function to create the svg file with fs 
 
 function makeLogo(answers) {
     const svg =makeShape(answers);
-    fs.writeFile(fileName, JSON.stringify(svg), (err)=> {
+    fs.writeFile("logo.svg",data, (err)=> {
         if (err) {
             console.log(err);
         } else {
             console.log("svg file created");
         }
-    });
-}
-      
+    })
 
+      
+};}
 
 questions();
-makeLogo();
