@@ -60,14 +60,14 @@ function makeShape() {
         let userShape = new Triangle (answers.shapeColor, answers.text, answers.textColor)
         return userShape.render()
     }
-    // return makeLogo;
+     
 }
 
 // need function to create the svg file with fs 
 
 function makeLogo(answers) {
-    const svg =makeShape(answers);
-    fs.writeFile("logo.svg",data, (err)=> {
+    const svg =makeShape (JSON.stringify(answers));
+    fs.writeFile("logo.svg",answers, (err)=> {
         if (err) {
             console.log(err);
         } else {
