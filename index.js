@@ -1,7 +1,8 @@
 const inquirer = require ("inquirer"); //need inquirer for user input 
 const fs = require ("fs"); //will need fs to make svg file 
 const { Triangle, Circle, Square } = require("./lib/shapes");
-const answers="";
+const answers = "";
+const colors = ['red', 'blue', ' yellow' , 'green', 'pink', 'orange'];
 
 
 const fileName = './examples/logo.svg';
@@ -16,6 +17,7 @@ function questions () {
             name: "shape",
             choices:["Triangle", "Circle", "Square"] 
         },
+        
         {
             type: "input",
             message: "What color would you like your shape?",
@@ -26,6 +28,7 @@ function questions () {
             type: "input",
             message: "What color would you like your text?",
             name: "textColor",
+           
             
         },
         {
@@ -38,44 +41,42 @@ function questions () {
     ])
 
     .then((answers) =>{
-        console.log (answers);
-        makeShape();
-        makeLogo();
+     
+       
+        makeLogo(answers);
     } )
     
 
 
 //Need function that will get the shape the user chooses
 
-function makeShape() {
+function makeShape(questions) { 
+    // const shape = (answers.shape);
     if (questions.shape==='Circle') {
-        let userShape = new Circle (answers.shapeColor, answers.text, answers.textColor)
+        let userShape = new Circle (questions.shapeColor, questions.text, questions.textColor)
         return userShape.render()
     }
     if (questions.shape==='Square') {
-        let userShape = new Square (answers.shapeColor, answers.text, answers.textColor)
+        let userShape = new Square (questions.shapeColor, questions.text, questions.textColor)
         return userShape.render()
     }
     if (questions.shape ==='Triangle') {
-        let userShape = new Triangle (answers.shapeColor, answers.text, answers.textColor)
+        let userShape = new Triangle (questions.shapeColor, questions.text, questions.textColor)
         return userShape.render()
     }
      
-}
+};
 
 // need function to create the svg file with fs 
 
 function makeLogo(answers) {
-    const svg =makeShape (JSON.stringify(answers));
-    fs.writeFile("logo.svg",answers, (err)=> {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("svg file created");
+    const svg =makeShape(answers);
+    fs.writeFile("logo.svg",(svg), () =>
+            console.log("svg file created"));
         }
-    })
+    };
 
       
-};}
+
 
 questions();
